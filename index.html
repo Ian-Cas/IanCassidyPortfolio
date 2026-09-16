@@ -1,1 +1,1139 @@
-<h1>Hello World! My website is live.</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Five Sections Website</title>
+
+    <style>
+        /* =========================
+           GENERAL STYLES
+        ========================= */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #111;
+            color: white;
+        }
+
+
+        /* =========================
+           NAVIGATION BAR
+        ========================= */
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 65px;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+
+            background: rgba(15, 15, 15, 0.95);
+            backdrop-filter: blur(8px);
+
+            z-index: 1000;
+
+            border-bottom: 1px solid #333;
+        }
+
+        nav button {
+            border: none;
+            background: transparent;
+            color: #ddd;
+
+            padding: 12px 22px;
+
+            font-size: 15px;
+            cursor: pointer;
+
+            transition:
+                background 0.25s,
+                color 0.25s,
+                transform 0.25s;
+        }
+
+        nav button:hover {
+            background: white;
+            color: black;
+            transform: translateY(-2px);
+        }
+
+
+        /* =========================
+           HERO / TITLE BANNER
+        ========================= */
+
+        .hero {
+            height: 100vh;
+            min-height: 600px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            text-align: center;
+
+            background:
+                linear-gradient(
+                    rgba(0,0,0,0.45),
+                    rgba(0,0,0,0.75)
+                ),
+                url("https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=2000&q=80");
+
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero h1 {
+            font-size: clamp(50px, 10vw, 130px);
+            letter-spacing: 8px;
+            text-transform: uppercase;
+        }
+
+        .hero p {
+            margin-top: 20px;
+            font-size: 20px;
+            color: #ddd;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            font-size: 14px;
+            color: #bbb;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(10px);
+            }
+        }
+
+
+        /* =========================
+           SECTION CONTAINER
+        ========================= */
+
+        .section {
+            min-height: 100vh;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 100px 8%;
+
+            cursor: pointer;
+
+            position: relative;
+
+            transition:
+                background 0.35s,
+                transform 0.35s;
+        }
+
+        /* Alternating backgrounds */
+
+        .section:nth-child(even) {
+            background: #191919;
+        }
+
+        .section:nth-child(odd) {
+            background: #242424;
+        }
+
+
+        /* =========================
+           HOVER EFFECT
+        ========================= */
+
+        .section:hover {
+            background: #333;
+        }
+
+        .section:hover .section-content {
+            transform: scale(1.02);
+        }
+
+        .section:hover .section-image {
+            transform: scale(1.04);
+            filter: brightness(1.15);
+        }
+
+
+        /* =========================
+           SECTION CONTENT
+        ========================= */
+
+        .section-content {
+            width: 100%;
+            max-width: 1200px;
+
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+
+            align-items: center;
+            gap: 70px;
+
+            transition: transform 0.35s;
+        }
+
+        .section:nth-of-type(even) .section-content {
+            direction: rtl;
+        }
+
+        .section:nth-of-type(even) .section-text {
+            direction: ltr;
+        }
+
+        .section-text {
+            direction: ltr;
+        }
+
+        .section-number {
+            font-size: 16px;
+            color: #aaa;
+            letter-spacing: 4px;
+            margin-bottom: 15px;
+        }
+
+        .section h2 {
+            font-size: clamp(40px, 6vw, 80px);
+            margin-bottom: 20px;
+        }
+
+        .section-description {
+            font-size: 18px;
+            line-height: 1.7;
+            color: #ccc;
+            max-width: 550px;
+        }
+
+        .click-hint {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #aaa;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+
+        /* =========================
+           SECTION IMAGES
+        ========================= */
+
+        .section-image {
+            width: 100%;
+            height: 500px;
+
+            object-fit: cover;
+
+            transition:
+                transform 0.5s,
+                filter 0.5s;
+        }
+
+
+        /* =========================
+           MODAL
+        ========================= */
+
+        .modal {
+            display: none;
+
+            position: fixed;
+
+            inset: 0;
+
+            background: rgba(0, 0, 0, 0.85);
+
+            z-index: 2000;
+
+            padding: 40px 20px;
+        }
+
+        .modal.active {
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+        }
+
+
+        /* =========================
+           MODAL CONTENT
+        ========================= */
+
+        .modal-box {
+            width: 90%;
+            max-width: 900px;
+            height: 85vh;
+
+            background: #f1f1f1;
+            color: #151515;
+
+            position: relative;
+
+            display: flex;
+            flex-direction: column;
+
+            box-shadow: 0 20px 80px rgba(0,0,0,0.7);
+        }
+
+
+        /* =========================
+           MODAL HEADER
+        ========================= */
+
+        .modal-header {
+            flex-shrink: 0;
+
+            padding: 25px 35px;
+
+            background: #111;
+            color: white;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            font-size: 30px;
+        }
+
+        .close-button {
+            width: 45px;
+            height: 45px;
+
+            border: none;
+
+            background: white;
+            color: black;
+
+            font-size: 28px;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        .close-button:hover {
+            background: #aaa;
+        }
+
+
+        /* =========================
+           SCROLLABLE MODAL BODY
+        ========================= */
+
+        .modal-body {
+            padding: 40px;
+
+            overflow-y: auto;
+
+            flex: 1;
+
+            line-height: 1.8;
+
+            font-size: 17px;
+        }
+
+        .modal-body p {
+            margin-bottom: 30px;
+        }
+
+        .modal-body h3 {
+            font-size: 28px;
+            margin: 40px 0 15px;
+        }
+
+        .modal-body img {
+            display: block;
+
+            width: 100%;
+            max-height: 450px;
+
+            object-fit: cover;
+
+            margin: 35px 0;
+        }
+
+        .image-caption {
+            text-align: center;
+
+            margin-top: -25px;
+            margin-bottom: 35px;
+
+            color: #666;
+            font-size: 14px;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 750px) {
+
+            nav {
+                overflow-x: auto;
+                justify-content: flex-start;
+                padding: 0 10px;
+            }
+
+            nav button {
+                padding: 10px 14px;
+                white-space: nowrap;
+            }
+
+            .hero h1 {
+                letter-spacing: 3px;
+            }
+
+            .section {
+                padding: 100px 25px;
+            }
+
+            .section-content {
+                grid-template-columns: 1fr;
+                gap: 35px;
+            }
+
+            .section:nth-of-type(even) .section-content {
+                direction: ltr;
+            }
+
+            .section-image {
+                height: 350px;
+            }
+
+            .modal {
+                padding: 0;
+            }
+
+            .modal-box {
+                width: 100%;
+                height: 100vh;
+            }
+
+            .modal-body {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+
+<!-- ==========================================
+     NAVIGATION
+========================================== -->
+
+<nav>
+
+    <button onclick="scrollToSection('section1')">
+        Section 1
+    </button>
+
+    <button onclick="scrollToSection('section2')">
+        Section 2
+    </button>
+
+    <button onclick="scrollToSection('section3')">
+        Section 3
+    </button>
+
+    <button onclick="scrollToSection('section4')">
+        Section 4
+    </button>
+
+    <button onclick="scrollToSection('section5')">
+        Section 5
+    </button>
+
+</nav>
+
+
+<!-- ==========================================
+     HERO
+========================================== -->
+
+<header class="hero">
+
+    <h1>My Website</h1>
+
+    <p>
+        Explore the five sections below
+    </p>
+
+    <div class="scroll-indicator">
+        ↓ SCROLL TO EXPLORE ↓
+    </div>
+
+</header>
+
+
+
+<!-- ==========================================
+     SECTION 1
+========================================== -->
+
+<section
+    class="section"
+    id="section1"
+    onclick="openModal('modal1')"
+>
+
+    <div class="section-content">
+
+        <div class="section-text">
+
+            <div class="section-number">
+                01
+            </div>
+
+            <h2>
+                Section One
+            </h2>
+
+            <p class="section-description">
+                This is the introduction to the first section.
+                Hover over this area and click anywhere to
+                open the full article.
+            </p>
+
+            <div class="click-hint">
+                Click to read more →
+            </div>
+
+        </div>
+
+
+        <img
+            class="section-image"
+            src="https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1200&q=80"
+            alt="Landscape"
+        >
+
+    </div>
+
+</section>
+
+
+
+<!-- ==========================================
+     SECTION 2
+========================================== -->
+
+<section
+    class="section"
+    id="section2"
+    onclick="openModal('modal2')"
+>
+
+    <div class="section-content">
+
+        <div class="section-text">
+
+            <div class="section-number">
+                02
+            </div>
+
+            <h2>
+                Section Two
+            </h2>
+
+            <p class="section-description">
+                The second section introduces another topic,
+                accompanied by a different image and expanded
+                content.
+            </p>
+
+            <div class="click-hint">
+                Click to read more →
+            </div>
+
+        </div>
+
+
+        <img
+            class="section-image"
+            src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1200&q=80"
+            alt="Forest"
+        >
+
+    </div>
+
+</section>
+
+
+
+<!-- ==========================================
+     SECTION 3
+========================================== -->
+
+<section
+    class="section"
+    id="section3"
+    onclick="openModal('modal3')"
+>
+
+    <div class="section-content">
+
+        <div class="section-text">
+
+            <div class="section-number">
+                03
+            </div>
+
+            <h2>
+                Section Three
+            </h2>
+
+            <p class="section-description">
+                Use this section for another major topic,
+                story, historical period, project, or subject.
+            </p>
+
+            <div class="click-hint">
+                Click to read more →
+            </div>
+
+        </div>
+
+
+        <img
+            class="section-image"
+            src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80"
+            alt="Ocean"
+        >
+
+    </div>
+
+</section>
+
+
+
+<!-- ==========================================
+     SECTION 4
+========================================== -->
+
+<section
+    class="section"
+    id="section4"
+    onclick="openModal('modal4')"
+>
+
+    <div class="section-content">
+
+        <div class="section-text">
+
+            <div class="section-number">
+                04
+            </div>
+
+            <h2>
+                Section Four
+            </h2>
+
+            <p class="section-description">
+                A fourth section can contain another chapter
+                of your website's story.
+            </p>
+
+            <div class="click-hint">
+                Click to read more →
+            </div>
+
+        </div>
+
+
+        <img
+            class="section-image"
+            src="https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1200&q=80"
+            alt="City"
+        >
+
+    </div>
+
+</section>
+
+
+
+<!-- ==========================================
+     SECTION 5
+========================================== -->
+
+<section
+    class="section"
+    id="section5"
+    onclick="openModal('modal5')"
+>
+
+    <div class="section-content">
+
+        <div class="section-text">
+
+            <div class="section-number">
+                05
+            </div>
+
+            <h2>
+                Section Five
+            </h2>
+
+            <p class="section-description">
+                Finish your website with a final section,
+                conclusion, or call to action.
+            </p>
+
+            <div class="click-hint">
+                Click to read more →
+            </div>
+
+        </div>
+
+
+        <img
+            class="section-image"
+            src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80"
+            alt="Mountains"
+        >
+
+    </div>
+
+</section>
+
+
+
+<!-- ==========================================
+     MODAL 1
+========================================== -->
+
+<div
+    class="modal"
+    id="modal1"
+    onclick="closeBackground(event, 'modal1')"
+>
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <h2>
+                Section One
+            </h2>
+
+            <button
+                class="close-button"
+                onclick="closeModal('modal1')"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="modal-body">
+
+            <h3>Introduction</h3>
+
+            <p>
+                This is the expanded content for section one.
+                You can place as much text here as you want.
+                The popup has its own scrollbar, so large
+                amounts of content won't affect the main page.
+            </p>
+
+
+            <img
+                src="https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1200&q=80"
+                alt="Example image"
+            >
+
+            <div class="image-caption">
+                Image caption
+            </div>
+
+
+            <p>
+                Continue your story here. This paragraph could
+                explain the background, history, significance,
+                or details associated with this section.
+            </p>
+
+
+            <h3>Another Topic</h3>
+
+            <p>
+                You can continue adding paragraphs, headings,
+                quotations, lists, and other HTML elements.
+            </p>
+
+
+            <img
+                src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80"
+                alt="Second example image"
+            >
+
+            <div class="image-caption">
+                Another image
+            </div>
+
+
+            <p>
+                This is another block of text following the
+                image. Keep adding content as necessary.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ==========================================
+     MODAL 2
+========================================== -->
+
+<div
+    class="modal"
+    id="modal2"
+    onclick="closeBackground(event, 'modal2')"
+>
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <h2>
+                Section Two
+            </h2>
+
+            <button
+                class="close-button"
+                onclick="closeModal('modal2')"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="modal-body">
+
+            <h3>Section Two</h3>
+
+            <p>
+                Add the detailed content for your second section
+                here.
+            </p>
+
+            <img
+                src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1200&q=80"
+                alt="Forest"
+            >
+
+            <p>
+                Additional text can go here. Images can be
+                inserted anywhere throughout the article.
+            </p>
+
+            <h3>More Information</h3>
+
+            <p>
+                Continue adding content to make this a complete
+                article or chapter.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ==========================================
+     MODAL 3
+========================================== -->
+
+<div
+    class="modal"
+    id="modal3"
+    onclick="closeBackground(event, 'modal3')"
+>
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <h2>
+                Section Three
+            </h2>
+
+            <button
+                class="close-button"
+                onclick="closeModal('modal3')"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="modal-body">
+
+            <h3>Section Three</h3>
+
+            <p>
+                This is the expanded content for section three.
+            </p>
+
+            <img
+                src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80"
+                alt="Ocean"
+            >
+
+            <p>
+                Add additional text and images throughout this
+                scrollable area.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ==========================================
+     MODAL 4
+========================================== -->
+
+<div
+    class="modal"
+    id="modal4"
+    onclick="closeBackground(event, 'modal4')"
+>
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <h2>
+                Section Four
+            </h2>
+
+            <button
+                class="close-button"
+                onclick="closeModal('modal4')"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="modal-body">
+
+            <h3>Section Four</h3>
+
+            <p>
+                This is the expanded content for section four.
+            </p>
+
+            <img
+                src="https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1200&q=80"
+                alt="City"
+            >
+
+            <p>
+                Continue the article here with whatever content
+                you need.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ==========================================
+     MODAL 5
+========================================== -->
+
+<div
+    class="modal"
+    id="modal5"
+    onclick="closeBackground(event, 'modal5')"
+>
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <h2>
+                Section Five
+            </h2>
+
+            <button
+                class="close-button"
+                onclick="closeModal('modal5')"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="modal-body">
+
+            <h3>Conclusion</h3>
+
+            <p>
+                This final section can serve as the conclusion
+                of your website.
+            </p>
+
+            <img
+                src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80"
+                alt="Mountains"
+            >
+
+            <p>
+                Add your final information, images, sources,
+                conclusion, or call to action here.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ==========================================
+     JAVASCRIPT
+========================================== -->
+
+<script>
+
+    /*
+     * Scroll to a section
+     */
+
+    function scrollToSection(id) {
+
+        document.getElementById(id).scrollIntoView({
+            behavior: "smooth"
+        });
+
+    }
+
+
+    /*
+     * Open a modal
+     */
+
+    function openModal(id) {
+
+        const modal = document.getElementById(id);
+
+        modal.classList.add("active");
+
+        // Prevent the main page from scrolling
+        document.body.style.overflow = "hidden";
+
+    }
+
+
+    /*
+     * Close a modal
+     */
+
+    function closeModal(id) {
+
+        const modal = document.getElementById(id);
+
+        modal.classList.remove("active");
+
+        // Allow main page to scroll again
+        document.body.style.overflow = "";
+
+    }
+
+
+    /*
+     * Close modal when clicking
+     * outside the modal box
+     */
+
+    function closeBackground(event, id) {
+
+        if (event.target.id === id) {
+
+            closeModal(id);
+
+        }
+
+    }
+
+
+    /*
+     * Allow ESC key to close
+     * whichever modal is open
+     */
+
+    document.addEventListener("keydown", function(event) {
+
+        if (event.key === "Escape") {
+
+            const openModal =
+                document.querySelector(".modal.active");
+
+            if (openModal) {
+
+                closeModal(openModal.id);
+
+            }
+
+        }
+
+    });
+
+</script>
+
+</body>
+</html>
